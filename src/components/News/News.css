@@ -1,0 +1,14 @@
+/* News Section Styling */
+#news {
+  position: relative;
+}
+
+#news .card {
+  border-left: 4px solid #d4af37;
+  transition: all 0.3s ease;
+}
+
+#news .card:hover {
+  transform: translateX(-12px);
+  box-shadow: 0 30px 80px rgba(212, 175, 55, 0.2);
+}

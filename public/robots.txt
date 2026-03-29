@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /search
+
+Sitemap: https://mohamedsamy-law.com/sitemap.xml
+
+# Mohamed Samy - Legal Consultant
+# https://mohamedsamy-law.com

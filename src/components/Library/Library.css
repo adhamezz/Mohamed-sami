@@ -1,0 +1,14 @@
+/* Library Section Styling */
+#library {
+  position: relative;
+}
+
+#library .card {
+  background: white;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  transition: all 0.3s ease;
+}
+
+#library .card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+}

@@ -1,0 +1,104 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-cairo bg-white text-gray-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-tajawal font-bold;
+  }
+}
+
+@layer components {
+  .section-title {
+    @apply text-4xl md:text-5xl font-tajawal font-bold text-navy-900 mb-6;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-gray-600 mb-12;
+  }
+
+  .cta-button {
+    @apply px-8 py-3 rounded-lg font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 text-white;
+  }
+
+  .cta-button-primary {
+    @apply cta-button bg-gold-500 hover:bg-gold-600 shadow-premium hover:shadow-premium-lg;
+  }
+
+  .cta-button-secondary {
+    @apply cta-button bg-navy-500 hover:bg-navy-600 shadow-premium hover:shadow-premium-lg;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-premium hover:shadow-premium-lg transition-all duration-300 overflow-hidden;
+  }
+
+  .card-hover {
+    @apply transform hover:-translate-y-2 duration-300;
+  }
+
+  .gradient-overlay {
+    @apply absolute inset-0 bg-gradient-to-b from-navy-900/80 via-navy-900/60 to-navy-900/40;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-gold-400 to-gold-500 bg-clip-text text-transparent;
+  }
+
+  .underline-gold {
+    @apply relative pb-3 after:content-[''] after:absolute after:bottom-0 after:right-0 after:w-16 after:h-1 after:bg-gold-500 after:rounded-full;
+  }
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-300;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gold-500 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gold-600;
+}
+
+/* RTL adjustments */
+[dir="rtl"] .ltr-only {
+  @apply hidden;
+}
+
+[dir="ltr"] .rtl-only {
+  @apply hidden;
+}
+
+/* Modal animation */
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.25s ease-out;
+}

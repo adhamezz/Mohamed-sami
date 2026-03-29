@@ -1,0 +1,51 @@
+/* Footer Section Styling */
+.footer-premium {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.footer-premium a {
+  position: relative;
+  z-index: 1;
+}
+
+/* Footer link hover animation */
+.footer-premium ul a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 0;
+  height: 1px;
+  background: #d4af37;
+  transition: width 0.3s ease;
+}
+
+.footer-premium ul a:hover::after {
+  width: 100%;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .footer-premium {
+    padding-top: 2rem;
+  }
+
+  .footer-premium .grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}

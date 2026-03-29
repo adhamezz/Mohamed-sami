@@ -1,0 +1,13 @@
+/* Media Section Styling */
+#media {
+  background: linear-gradient(135deg, #f8fafc 0%, #f0f4f8 100%);
+}
+
+#media .card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+#media .card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+}

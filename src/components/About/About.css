@@ -1,0 +1,129 @@
+/* About Section Styling */
+.about-section {
+  position: relative;
+  background: linear-gradient(135deg, #f8fafc 0%, #f0f4f8 50%, #faf8f0 100%);
+  overflow: visible;
+}
+
+.about-title {
+  background: linear-gradient(135deg, #1e3a5f 0%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Background shapes */
+.about-bg-shapes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.about-shape-1 {
+  top: -10%;
+  right: -5%;
+  width: 350px;
+  height: 350px;
+  background: rgba(212, 175, 55, 0.07);
+}
+
+.about-shape-2 {
+  bottom: -15%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: rgba(30, 58, 95, 0.04);
+}
+
+.about-shape-3 {
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 280px;
+  background: rgba(212, 175, 55, 0.04);
+}
+
+/* Particles */
+.about-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.about-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.35);
+}
+
+/* Image effects */
+.about-image-wrapper {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.about-shimmer {
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 70%
+  );
+  background-size: 250% 100%;
+  animation: shimmer-about 4s ease-in-out infinite;
+}
+
+@keyframes shimmer-about {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Floating cards */
+.about-float-card {
+  transition: box-shadow 0.3s ease;
+}
+
+.about-float-card:hover {
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.2);
+}
+
+/* Animated ring */
+.about-ring {
+  border: 2px dashed rgba(212, 175, 55, 0.25);
+  border-radius: 50%;
+}
+
+/* CTA button shine */
+.about-cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.about-cta-btn:hover::after {
+  left: 120%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .about-shape-1 { width: 200px; height: 200px; }
+  .about-shape-2 { width: 250px; height: 250px; }
+  .about-shape-3 { width: 180px; height: 180px; }
+}
+
+@media (max-width: 640px) {
+  .about-particles { display: none; }
+}

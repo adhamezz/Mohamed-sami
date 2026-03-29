@@ -1,0 +1,52 @@
+/* Hero Section Styling */
+.hero-section {
+  background: linear-gradient(135deg, #1e3a5f 0%, #14244f 50%, #0f1a3f 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* If hero.jpg is available, overlay on top */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  z-index: 0;
+}
+
+/* Hero content responsive */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 500px;
+    padding-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    min-height: 550px;
+  }
+}
+
+/* Bounce subtle animation for chat bubble */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Smooth slide-in animation */
+@keyframes slide-in-from-bottom {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}

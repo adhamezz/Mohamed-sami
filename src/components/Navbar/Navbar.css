@@ -1,0 +1,58 @@
+/* Navbar specific styles */
+.topbar {
+  font-family: 'Cairo', sans-serif;
+}
+
+.main-navbar {
+  font-family: 'Cairo', sans-serif;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.main-navbar a {
+  transition: all 0.3s ease;
+}
+
+/* Navbar link hover underline effect */
+.navbar-link {
+  position: relative;
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: #d4af37;
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+  transform: translateY(4px);
+}
+
+.group:hover .dropdown-menu {
+  transform: translateY(0);
+}
+
+.group {
+  position: relative;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 1023px) {
+  .main-navbar {
+    padding: 0;
+  }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

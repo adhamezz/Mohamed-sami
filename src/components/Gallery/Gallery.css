@@ -1,0 +1,60 @@
+/* أبرز الخدمات Section */
+.gallery-section {
+  background: linear-gradient(160deg, #f8fafc 0%, #f0f2f5 50%, #faf8f3 100%);
+  position: relative;
+}
+
+.gallery-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+/* Service Card */
+.service-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, box-shadow;
+}
+
+.service-card:hover {
+  transform: translateY(-12px);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(212, 175, 55, 0.15),
+    0 30px 80px rgba(212, 175, 55, 0.08);
+}
+
+/* Shine sweep on hover */
+.service-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.7s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.service-card:hover::after {
+  left: 120%;
+}
+
+@media (max-width: 768px) {
+  .gallery-section .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

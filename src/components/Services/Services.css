@@ -1,0 +1,44 @@
+/* Services Section Styling */
+#services {
+  position: relative;
+}
+
+#services .card {
+  background: white;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+#services .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #d4af37 0%, #c9a332 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+#services .card:hover::before {
+  transform: scaleX(1);
+}
+
+#services .icon-bg {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  #services {
+    padding: 2rem 1rem;
+  }
+
+  #services .grid {
+    grid-template-columns: 1fr;
+  }
+}
