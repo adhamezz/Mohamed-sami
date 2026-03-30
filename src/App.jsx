@@ -23,6 +23,10 @@ import AdminTeamPage from './pages/admin/AdminTeamPage'
 import AdminGalleryPage from './pages/admin/AdminGalleryPage'
 import AdminMessagesPage from './pages/admin/AdminMessagesPage'
 import AdminTestimonialsPage from './pages/admin/AdminTestimonialsPage'
+import AdminBrandingPage from './pages/admin/AdminBrandingPage'
+import AdminBusinessProfilePage from './pages/admin/AdminBusinessProfilePage'
+import AdminAnalyticsPage from './pages/admin/AdminAnalyticsPage'
+import AdminExportPage from './pages/admin/AdminExportPage'
 
 // Page Components
 import HomePage from './pages/HomePage'
@@ -110,6 +114,10 @@ function App() {
             <Route path="gallery" element={<AdminGalleryPage />} />
             <Route path="messages" element={<AdminMessagesPage />} />
             <Route path="testimonials" element={<AdminTestimonialsPage />} />
+            <Route path="branding" element={<AdminBrandingPage />} />
+            <Route path="business-profile" element={<AdminBusinessProfilePage />} />
+            <Route path="analytics" element={<AdminAnalyticsPage />} />
+            <Route path="export" element={<AdminExportPage />} />
           </Route>
 
           {/* ── Public Routes ── */}

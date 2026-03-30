@@ -23,6 +23,9 @@ import {
   Image,
   Mail,
   UserCheck,
+  Palette,
+  BarChart2,
+  Download,
 } from 'lucide-react';
 
 const NAV_GROUPS = [
@@ -33,9 +36,16 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'تخصيص الموقع',
+    items: [
+      { to: '/admin/branding', icon: Palette, label: 'هوية الموقع' },
+      { to: '/admin/site-settings', icon: Globe, label: 'إعدادات الموقع' },
+      { to: '/admin/business-profile', icon: UserCheck, label: 'الملف المهني' },
+    ],
+  },
+  {
     label: 'إدارة المحتوى',
     items: [
-      { to: '/admin/site-settings', icon: Globe, label: 'إعدادات الموقع' },
       { to: '/admin/articles', icon: FileText, label: 'المقالات' },
       { to: '/admin/services', icon: Briefcase, label: 'الخدمات' },
       { to: '/admin/team', icon: UserCheck, label: 'الفريق' },
@@ -53,6 +63,8 @@ const NAV_GROUPS = [
   {
     label: 'النظام',
     items: [
+      { to: '/admin/analytics', icon: BarChart2, label: 'الإحصائيات' },
+      { to: '/admin/export', icon: Download, label: 'النسخ الاحتياطي' },
       { to: '/admin/settings', icon: Settings, label: 'الإعدادات' },
     ],
   },

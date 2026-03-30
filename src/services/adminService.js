@@ -173,6 +173,8 @@ export const dashboardService = {
     const services = load(KEYS.services, SEED_SERVICES);
     const team = load(KEYS.team, SEED_TEAM);
     const messages = load(KEYS.messages, []);
+    const gallery = load(KEYS.gallery, []);
+    const testimonials = load(KEYS.testimonials, SEED_TESTIMONIALS);
     return {
       totalArticles: articles.length,
       publishedArticles: articles.filter(a => a.status === 'published').length,
@@ -181,10 +183,14 @@ export const dashboardService = {
       totalServices: services.length,
       totalTeam: team.length,
       totalMessages: messages.length,
+      unreadMessages: messages.filter(m => !m.read).length,
+      totalGallery: gallery.length,
+      totalTestimonials: testimonials.length,
       recentActivity: [
-        ...articles.slice(-3).map(a => ({ type: 'article', label: `مقال: ${a.title}`, date: a.date, id: a.id })),
+        ...articles.slice(-3).map(a => ({ type: 'article', label: `مقال: ${a.title}`, date: a.date, id: a.id, status: a.status })),
         ...users.slice(-2).map(u => ({ type: 'user', label: `مستخدم: ${u.name}`, date: u.joinDate, id: u.id })),
-      ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5),
+        ...messages.slice(-2).map(m => ({ type: 'message', label: `رسالة من: ${m.name || 'زائر'}`, date: m.date || '', id: m.id })),
+      ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 7),
     };
   },
 };
