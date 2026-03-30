@@ -210,6 +210,7 @@ const DEFAULT_SITE_SETTINGS = {
   aboutText: 'مستشار قانوني بخبرة أكثر من 15 سنة في مجالات القانون المختلفة في مصر والإمارات والكويت.',
   primaryColor: '#1e3a5f',
   accentColor: '#d4af37',
+  twitter: '',
 };
 
 export const siteSettingsService = {
@@ -326,8 +327,8 @@ export const cmsGalleryService = {
 
 // ─── CMS Testimonials ────────────────────────────────────────────
 const SEED_TESTIMONIALS = [
-  { id: '1', name: 'أحمد الشمري', position: 'رجل أعمال', text: 'المستشار محمد سامي أفضل محامٍ تعاملت معه، احترافية عالية وتميز في العمل.', rating: 5, date: '2024-01-10' },
-  { id: '2', name: 'سارة المنصوري', position: 'مديرة تنفيذية', text: 'خدمة ممتازة وسرعة في الإنجاز، أنصح بالتعامل مع مكتب المستشار محمد سامي.', rating: 5, date: '2024-02-15' },
+  { id: '1', name: 'أحمد الشمري', company: 'مجموعة الشمري للأعمال', position: 'رجل أعمال', text: 'المستشار محمد سامي أفضل محامٍ تعاملت معه، احترافية عالية وتميز في العمل.', rating: 5, date: '2024-01-10', image: null },
+  { id: '2', name: 'سارة المنصوري', company: 'شركة المنصوري التجارية', position: 'مديرة تنفيذية', text: 'خدمة ممتازة وسرعة في الإنجاز، أنصح بالتعامل مع مكتب المستشار محمد سامي.', rating: 5, date: '2024-02-15', image: null },
 ];
 
 export const cmsTestimonialsService = {
