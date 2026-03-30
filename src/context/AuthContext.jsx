@@ -18,8 +18,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext(null);
 
 // Default admin credentials – replace with real auth in production
-const ADMIN_EMAIL = 'admin@example.com';
-const ADMIN_PASSWORD = 'admin123';
+const ADMIN_EMAIL = 'ert2815@gmail.com';
+const ADMIN_PASSWORD = 'Adham@1199';
 const STORAGE_KEY = 'adminSession';
 
 export function AuthProvider({ children }) {
