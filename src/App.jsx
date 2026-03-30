@@ -10,6 +10,8 @@ import './App.css'
 
 // Admin Dashboard
 import { AuthProvider } from './context/AuthContext'
+import { RoleProvider } from './context/RoleContext'
+import { UIProvider } from './context/UIContext'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import AdminLayout from './components/admin/AdminLayout'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
@@ -27,6 +29,9 @@ import AdminBrandingPage from './pages/admin/AdminBrandingPage'
 import AdminBusinessProfilePage from './pages/admin/AdminBusinessProfilePage'
 import AdminAnalyticsPage from './pages/admin/AdminAnalyticsPage'
 import AdminExportPage from './pages/admin/AdminExportPage'
+import AdminRolesPage from './pages/admin/AdminRolesPage'
+import AdminPermissionsPage from './pages/admin/AdminPermissionsPage'
+import AdminCustomizationPage from './pages/admin/AdminCustomizationPage'
 
 // Page Components
 import HomePage from './pages/HomePage'
@@ -91,7 +96,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
+      <RoleProvider>
+        <UIProvider>
+          <Router>
         <ScrollToTopOnNav />
         <Routes>
           {/* ── Admin Routes (separate layout, no public Navbar/Footer) ── */}
@@ -118,6 +125,9 @@ function App() {
             <Route path="business-profile" element={<AdminBusinessProfilePage />} />
             <Route path="analytics" element={<AdminAnalyticsPage />} />
             <Route path="export" element={<AdminExportPage />} />
+            <Route path="roles" element={<AdminRolesPage />} />
+            <Route path="permissions" element={<AdminPermissionsPage />} />
+            <Route path="customization" element={<AdminCustomizationPage />} />
           </Route>
 
           {/* ── Public Routes ── */}
@@ -179,6 +189,8 @@ function App() {
           />
         </Routes>
       </Router>
+        </UIProvider>
+      </RoleProvider>
     </AuthProvider>
   )
 }
