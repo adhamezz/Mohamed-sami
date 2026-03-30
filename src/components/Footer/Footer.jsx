@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Facebook, Linkedin, Mail, Phone, MapPin, MessageCircle, Send, ArrowUp, Scale, Shield, FileText } from 'lucide-react'
+import { Facebook, Linkedin, Mail, Phone, MapPin, MessageCircle, Send, ArrowUp, Scale, Shield, FileText, Instagram } from 'lucide-react'
 import logoImg from '../../images/logo.jpg'
+import { useCMS } from '../../context/CMSContext'
 import './Footer.css'
 
 const Footer = () => {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const { siteSettings } = useCMS()
 
   const handleSubscribe = (e) => {
     e.preventDefault()
@@ -17,12 +19,22 @@ const Footer = () => {
     localStorage.setItem('subscribers', JSON.stringify(subscribers))
     const subject = encodeURIComponent('اشتراك جديد في النشرة القانونية')
     const body = encodeURIComponent(`اشتراك جديد:\nالبريد: ${email.trim()}`)
-    window.open(`mailto:mohamedsamy992019@gmail.com?subject=${subject}&body=${body}`, '_self')
+    const adminEmail = siteSettings?.email || 'mohamedsamy992019@gmail.com'
+    window.open(`mailto:${adminEmail}?subject=${subject}&body=${body}`, '_self')
     setSubscribed(true)
     setTimeout(() => { setSubscribed(false); setEmail('') }, 3000)
   }
 
+  const whatsappNumber = siteSettings?.whatsapp || '971506207021'
+  const adminEmail = siteSettings?.email || 'mohamedsamy992019@gmail.com'
+
   const socialLinks = [
+    siteSettings?.facebook && { icon: Facebook, label: 'Facebook', href: siteSettings.facebook },
+    siteSettings?.whatsapp && { icon: MessageCircle, label: 'WhatsApp', href: `https://wa.me/${whatsappNumber}` },
+    siteSettings?.linkedin && { icon: Linkedin, label: 'LinkedIn', href: siteSettings.linkedin },
+    siteSettings?.instagram && { icon: Instagram, label: 'Instagram', href: siteSettings.instagram },
+    { icon: Mail, label: 'Email', href: `mailto:${adminEmail}` },
+  ].filter(Boolean) || [
     { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/mohamd.samy.9' },
     { icon: MessageCircle, label: 'WhatsApp', href: 'https://wa.me/971506207021' },
     { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/mohamed-samy-810aa3256/' },
@@ -109,14 +121,14 @@ const Footer = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <a
-              href="tel:+971544525880"
+              href={`tel:${(siteSettings?.phone || '+971544525880').replace(/\s/g, '')}`}
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-gold-500 text-navy-900 font-bold font-tajawal hover:bg-gold-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               <Phone size={18} />
               اتصل بنا الآن
             </a>
             <a
-              href="https://wa.me/971506207021"
+              href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border-2 border-white/30 text-white font-bold font-tajawal hover:bg-white/10 transition-all duration-300 hover:-translate-y-0.5"
@@ -289,31 +301,33 @@ const Footer = () => {
                   <MapPin size={16} className="text-gold-400" />
                 </div>
                 <span className="text-gray-300 font-cairo text-sm group-hover:text-gold-400 transition-colors">
-                  أبوظبي، الإمارات العربية المتحدة
+                  {siteSettings?.address || 'أبوظبي، الإمارات العربية المتحدة'}
                 </span>
               </a>
-              <a href="tel:+971544525880" className="flex items-start gap-3 group hover:translate-x-[-3px] transition-transform">
-                <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold-500/20 transition-colors">
-                  <Phone size={16} className="text-gold-400" />
-                </div>
-                <span className="text-gray-300 font-cairo text-sm group-hover:text-gold-400 transition-colors" dir="ltr">
-                  +971 54 452 5880
-                </span>
-              </a>
-              <a href="https://wa.me/971506207021" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group hover:translate-x-[-3px] transition-transform">
+              {siteSettings?.phone && (
+                <a href={`tel:${siteSettings.phone.replace(/\s/g, '')}`} className="flex items-start gap-3 group hover:translate-x-[-3px] transition-transform">
+                  <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold-500/20 transition-colors">
+                    <Phone size={16} className="text-gold-400" />
+                  </div>
+                  <span className="text-gray-300 font-cairo text-sm group-hover:text-gold-400 transition-colors" dir="ltr">
+                    {siteSettings.phone}
+                  </span>
+                </a>
+              )}
+              <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group hover:translate-x-[-3px] transition-transform">
                 <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold-500/20 transition-colors">
                   <MessageCircle size={16} className="text-gold-400" />
                 </div>
                 <span className="text-gray-300 font-cairo text-sm group-hover:text-gold-400 transition-colors" dir="ltr">
-                  +971 50 620 7021
+                  +{whatsappNumber}
                 </span>
               </a>
-              <a href="mailto:mohamedsamy992019@gmail.com" className="flex items-start gap-3 group hover:translate-x-[-3px] transition-transform">
+              <a href={`mailto:${adminEmail}`} className="flex items-start gap-3 group hover:translate-x-[-3px] transition-transform">
                 <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold-500/20 transition-colors">
                   <Mail size={16} className="text-gold-400" />
                 </div>
                 <span className="text-gray-300 font-cairo text-sm group-hover:text-gold-400 transition-colors" dir="ltr">
-                  mohamedsamy992019@gmail.com
+                  {adminEmail}
                 </span>
               </a>
             </div>

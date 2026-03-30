@@ -17,6 +17,12 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage'
 import AdminArticlesPage from './pages/admin/AdminArticlesPage'
 import AdminUsersPage from './pages/admin/AdminUsersPage'
 import AdminSettingsPage from './pages/admin/AdminSettingsPage'
+import AdminSiteSettingsPage from './pages/admin/AdminSiteSettingsPage'
+import AdminServicesPage from './pages/admin/AdminServicesPage'
+import AdminTeamPage from './pages/admin/AdminTeamPage'
+import AdminGalleryPage from './pages/admin/AdminGalleryPage'
+import AdminMessagesPage from './pages/admin/AdminMessagesPage'
+import AdminTestimonialsPage from './pages/admin/AdminTestimonialsPage'
 
 // Page Components
 import HomePage from './pages/HomePage'
@@ -98,6 +104,12 @@ function App() {
             <Route path="articles" element={<AdminArticlesPage />} />
             <Route path="users" element={<AdminUsersPage />} />
             <Route path="settings" element={<AdminSettingsPage />} />
+            <Route path="site-settings" element={<AdminSiteSettingsPage />} />
+            <Route path="services" element={<AdminServicesPage />} />
+            <Route path="team" element={<AdminTeamPage />} />
+            <Route path="gallery" element={<AdminGalleryPage />} />
+            <Route path="messages" element={<AdminMessagesPage />} />
+            <Route path="testimonials" element={<AdminTestimonialsPage />} />
           </Route>
 
           {/* ── Public Routes ── */}
