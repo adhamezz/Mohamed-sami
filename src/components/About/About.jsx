@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import aboutImg from '../../images/about.jpg'
 import { Check, Sparkles } from 'lucide-react'
+import { useCMS } from '../../context/CMSContext'
 import './About.css'
 
 function AnimatedNumber({ end, suffix = '' }) {
@@ -36,6 +37,7 @@ const features = [
 
 const About = () => {
   const sectionRef = useRef(null)
+  const { siteSettings } = useCMS()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -72,6 +74,14 @@ const About = () => {
       transition: { delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
     }),
   }
+
+  const siteName = siteSettings?.siteName || 'محمد سامي'
+  const aboutTitle = siteSettings?.aboutTitle || 'نبذة عني'
+  const aboutText = siteSettings?.aboutText || 'مستشار قانوني متخصص في تقديم حلول قانونية شاملة وعالية الجودة للأفراد والشركات، بخبرة عميقة والتزام كامل بحماية حقوق موكليّ.'
+  const aboutParagraphs = useMemo(
+    () => aboutText.split(/\n+/).map(p => p.trim()).filter(Boolean),
+    [aboutText]
+  )
 
   return (
     <section
@@ -150,7 +160,7 @@ const About = () => {
                 تعرف عليّ
               </motion.span>
               <h2 className="about-title text-3xl md:text-4xl font-tajawal font-bold text-navy-900 mt-3 mb-2">
-                نبذة عني
+                {aboutTitle}
               </h2>
               <motion.div
                 initial={{ scaleX: 0 }}
@@ -161,21 +171,15 @@ const About = () => {
               />
             </motion.div>
 
-            <motion.p
-              variants={itemVariants}
-              className="text-gray-600 leading-[1.9] font-cairo text-[0.95rem]"
-            >
-              مستشار قانوني متخصص في تقديم حلول قانونية شاملة وعالية الجودة للأفراد والشركات،
-              بخبرة عميقة والتزام كامل بحماية حقوق موكليّ.
-            </motion.p>
-
-            <motion.p
-              variants={itemVariants}
-              className="text-gray-600 leading-[1.9] font-cairo text-[0.95rem]"
-            >
-              أسعى لتحقيق العدالة وتوفير أفضل الخدمات القانونية بأعلى معايير المهنية والأخلاق،
-              مع الحفاظ على سرية كاملة وثقة موكليّ.
-            </motion.p>
+            {aboutParagraphs.map((paragraph, index) => (
+              <motion.p
+                key={index}
+                variants={itemVariants}
+                className="text-gray-600 leading-[1.9] font-cairo text-[0.95rem]"
+              >
+                {paragraph}
+              </motion.p>
+            ))}
 
             {/* Features — staggered slide-in */}
             <div className="space-y-2.5 pt-4">
@@ -244,7 +248,7 @@ const About = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
                 src={aboutImg}
-                alt="محمد سامي"
+                alt={siteName}
                 className="w-full h-full object-cover"
               />
               {/* Overlay shimmer */}

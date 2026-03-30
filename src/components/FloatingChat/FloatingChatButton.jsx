@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { MessageCircle, X, Send, Phone } from 'lucide-react'
 import logoImg from '../../images/logo.jpg'
+import { useCMS } from '../../context/CMSContext'
 
 const FloatingChatButton = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasNotification, setHasNotification] = useState(true)
   const [showBubble, setShowBubble] = useState(false)
+  const { siteSettings } = useCMS()
 
   useEffect(() => {
     // Show notification bubble after 3 seconds
@@ -21,12 +23,18 @@ const FloatingChatButton = () => {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent('مرحباً، أود التواصل معكم بخصوص خدماتكم القانونية.')
-    window.open(`https://wa.me/971506207021?text=${message}`, '_blank', 'noopener,noreferrer')
+    const number = (siteSettings?.whatsapp || '971506207021').replace(/\D/g, '')
+    window.open(`https://wa.me/${number}?text=${message}`, '_blank', 'noopener,noreferrer')
   }
 
   const handleCall = () => {
-    window.location.href = 'tel:+971544525880'
+    const phone = (siteSettings?.phone || '+971544525880').replace(/\s/g, '')
+    window.location.href = `tel:${phone}`
   }
+
+  const siteName = siteSettings?.siteName || 'محمد سامي'
+  const logoSrc = siteSettings?.logo || logoImg
+  const facebookLink = siteSettings?.facebook || 'https://www.facebook.com/mohamd.samy.9'
 
   return (
     <div className="fixed bottom-24 left-6 z-50" style={{ direction: 'rtl' }}>
@@ -41,10 +49,10 @@ const FloatingChatButton = () => {
               </button>
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <h3 className="font-tajawal font-bold text-sm">محمد سامي</h3>
+                  <h3 className="font-tajawal font-bold text-sm">{siteName}</h3>
                   <p className="text-gold-400 text-xs font-cairo">متصل الآن</p>
                 </div>
-                <img src={logoImg} alt="محمد سامي" className="w-10 h-10 rounded-full object-cover border border-white/20" />
+                <img src={logoSrc} alt={siteName} className="w-10 h-10 rounded-full object-cover border border-white/20" />
               </div>
             </div>
           </div>
@@ -80,7 +88,7 @@ const FloatingChatButton = () => {
               اتصل بنا الآن
             </button>
             <a
-              href="https://www.facebook.com/mohamd.samy.9"
+              href={facebookLink}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-cairo font-bold py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-sm"

@@ -11,16 +11,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useCMS } from '../../context/CMSContext';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const { login } = useAuth();
+  const { siteSettings } = useCMS();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const siteName = siteSettings?.siteName || 'محمد سامي — مستشار قانوني';
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -59,7 +62,7 @@ export default function AdminLoginPage() {
             <Lock size={28} className="text-[#1e3a5f]" />
           </div>
           <h1 className="text-white text-2xl font-bold">لوحة الإدارة</h1>
-          <p className="text-white/60 text-sm mt-1">محمد سامي — مستشار قانوني</p>
+          <p className="text-white/60 text-sm mt-1">{siteName}</p>
         </div>
 
         {/* Form */}

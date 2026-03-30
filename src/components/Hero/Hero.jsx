@@ -1,33 +1,35 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import heroImg from '../../images/hero.jpg'
 import consultImg from '../../images/service_02.jpg'
 import caseImg from '../../images/service_03 (1).jpg'
+import { useCMS } from '../../context/CMSContext'
 import './Hero.css'
-
-const slides = [
-  {
-    image: heroImg,
-    title: 'محمد سامي — مستشار قانوني',
-    subtitle: 'أقدم كافة الخدمات القانونية كالتمثيل القانوني أمام المحاكم والاستشارات القانونية وصياغة المذكرات القانونية والعقود.',
-  },
-  {
-    image: consultImg,
-    title: 'استشارات قانونية متخصصة على أعلى مستوى',
-    subtitle: 'مستشار قانوني بخبرة واسعة في كافة فروع القانون المصري والعربي.',
-  },
-  {
-    image: caseImg,
-    title: 'إدارة القضايا والمنازعات باحترافية',
-    subtitle: 'تمثيل قانوني شامل أمام جميع المحاكم المصرية والعربية مع التزام تام بحماية حقوق موكلينا.',
-  },
-]
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const intervalRef = useRef(null)
+  const { siteSettings } = useCMS()
+
+  const slides = useMemo(() => ([
+    {
+      image: heroImg,
+      title: siteSettings?.heroTitle || 'محمد سامي — مستشار قانوني',
+      subtitle: siteSettings?.heroSubtitle || 'أقدم كافة الخدمات القانونية كالتمثيل القانوني أمام المحاكم والاستشارات القانونية وصياغة المذكرات القانونية والعقود.',
+    },
+    {
+      image: consultImg,
+      title: 'استشارات قانونية متخصصة على أعلى مستوى',
+      subtitle: 'مستشار قانوني بخبرة واسعة في كافة فروع القانون المصري والعربي.',
+    },
+    {
+      image: caseImg,
+      title: 'إدارة القضايا والمنازعات باحترافية',
+      subtitle: 'تمثيل قانوني شامل أمام جميع المحاكم المصرية والعربية مع التزام تام بحماية حقوق موكلينا.',
+    },
+  ]), [siteSettings?.heroTitle, siteSettings?.heroSubtitle])
 
   useEffect(() => {
     // Trigger entrance animation
