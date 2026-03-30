@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCMS } from '../../context/CMSContext';
+import { useUI } from '../../context/UIContext';
+import { PRESET_THEMES } from '../../utils/themes';
 import {
   LayoutDashboard,
   FileText,
@@ -26,6 +28,9 @@ import {
   Palette,
   BarChart2,
   Download,
+  Shield,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 const NAV_GROUPS = [
@@ -41,6 +46,7 @@ const NAV_GROUPS = [
       { to: '/admin/branding', icon: Palette, label: 'هوية الموقع' },
       { to: '/admin/site-settings', icon: Globe, label: 'إعدادات الموقع' },
       { to: '/admin/business-profile', icon: UserCheck, label: 'الملف المهني' },
+      { to: '/admin/customization', icon: Palette, label: 'الثيم والألوان' },
     ],
   },
   {
@@ -61,6 +67,13 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'الصلاحيات',
+    items: [
+      { to: '/admin/roles', icon: Shield, label: 'الأدوار' },
+      { to: '/admin/permissions', icon: Shield, label: 'مصفوفة الصلاحيات' },
+    ],
+  },
+  {
     label: 'النظام',
     items: [
       { to: '/admin/analytics', icon: BarChart2, label: 'الإحصائيات' },
@@ -73,6 +86,7 @@ const NAV_GROUPS = [
 export default function AdminLayout() {
   const { admin, logout } = useAuth();
   const { siteSettings } = useCMS();
+  const { isDark, toggleColorMode, theme } = useUI();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const siteName = siteSettings?.siteName || 'محمد سامي';
@@ -82,8 +96,11 @@ export default function AdminLayout() {
     navigate('/admin/login');
   };
 
+  const sidebarBg = theme?.sidebar || PRESET_THEMES[0].sidebar;
+  const accentColor = theme?.accent || PRESET_THEMES[0].accent;
+
   return (
-    <div className="flex h-screen bg-gray-100 font-cairo" dir="rtl">
+    <div className={`flex h-screen font-cairo ${isDark ? 'bg-gray-900' : 'bg-gray-100'}`} dir="rtl">
       {/* ── Sidebar Overlay (mobile) ── */}
       {sidebarOpen && (
         <div
@@ -94,14 +111,15 @@ export default function AdminLayout() {
 
       {/* ── Sidebar ── */}
       <aside
-        className={`fixed top-0 right-0 z-30 h-full w-64 bg-[#1e3a5f] text-white flex flex-col shadow-2xl
+        className={`fixed top-0 right-0 z-30 h-full w-64 text-white flex flex-col shadow-2xl
           transform transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen
           ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        style={{ backgroundColor: sidebarBg }}
       >
         {/* Logo */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
           <Link to="/admin/dashboard" className="flex items-center gap-2">
-            <span className="text-[#d4af37] font-bold text-lg leading-tight">
+            <span className="font-bold text-lg leading-tight" style={{ color: accentColor }}>
               {siteName}
               <br />
               <span className="text-xs text-white/70 font-normal">لوحة الإدارة</span>
@@ -163,22 +181,29 @@ export default function AdminLayout() {
       {/* ── Main Content ── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navbar */}
-        <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-10">
+        <header className={`shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-10 ${isDark ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-600'}`}>
           <button
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-600"
+            className={`lg:hidden p-2 rounded-lg transition ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
             onClick={() => setSidebarOpen(true)}
           >
             <Menu size={22} />
           </button>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Link to="/" className="hover:text-[#1e3a5f] transition" target="_blank">
+          <div className="flex items-center gap-3 text-sm">
+            <button
+              onClick={toggleColorMode}
+              className={`p-2 rounded-lg transition ${isDark ? 'hover:bg-gray-700 text-yellow-400' : 'hover:bg-gray-100 text-gray-500'}`}
+              title={isDark ? 'تفعيل الوضع الفاتح' : 'تفعيل الوضع الداكن'}
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <Link to="/" className={`hover:text-[#1e3a5f] transition`} target="_blank">
               عرض الموقع ↗
             </Link>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main className={`flex-1 overflow-y-auto p-4 lg:p-6 ${isDark ? 'bg-gray-900 text-gray-100' : ''}`}>
           <Outlet />
         </main>
       </div>
