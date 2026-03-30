@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useCMS } from '../../context/CMSContext'
 import './WhatsAppButton.css'
 
 const WhatsAppButton = () => {
   const [visible, setVisible] = useState(false)
+  const { siteSettings } = useCMS()
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 1500)
@@ -10,8 +12,9 @@ const WhatsAppButton = () => {
   }, [])
 
   const handleClick = () => {
+    const number = siteSettings?.whatsapp || '971506207021'
     const message = encodeURIComponent('مرحباً، أود التواصل معكم بخصوص خدماتكم القانونية.')
-    window.open(`https://wa.me/971506207021?text=${message}`, '_blank', 'noopener,noreferrer')
+    window.open(`https://wa.me/${number}?text=${message}`, '_blank', 'noopener,noreferrer')
   }
 
   if (!visible) return null

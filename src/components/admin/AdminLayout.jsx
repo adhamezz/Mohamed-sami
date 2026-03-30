@@ -16,13 +16,45 @@ import {
   Menu,
   X,
   ChevronRight,
+  Globe,
+  Briefcase,
+  Star,
+  Image,
+  Mail,
+  UserCheck,
 } from 'lucide-react';
 
-const NAV_ITEMS = [
-  { to: '/admin/dashboard', icon: LayoutDashboard, label: 'لوحة التحكم' },
-  { to: '/admin/articles', icon: FileText, label: 'المقالات' },
-  { to: '/admin/users', icon: Users, label: 'المستخدمون' },
-  { to: '/admin/settings', icon: Settings, label: 'الإعدادات' },
+const NAV_GROUPS = [
+  {
+    label: 'الرئيسية',
+    items: [
+      { to: '/admin/dashboard', icon: LayoutDashboard, label: 'لوحة التحكم' },
+    ],
+  },
+  {
+    label: 'إدارة المحتوى',
+    items: [
+      { to: '/admin/site-settings', icon: Globe, label: 'إعدادات الموقع' },
+      { to: '/admin/articles', icon: FileText, label: 'المقالات' },
+      { to: '/admin/services', icon: Briefcase, label: 'الخدمات' },
+      { to: '/admin/team', icon: UserCheck, label: 'الفريق' },
+      { to: '/admin/gallery', icon: Image, label: 'المعرض' },
+      { to: '/admin/testimonials', icon: Star, label: 'التقييمات' },
+    ],
+  },
+  {
+    label: 'التفاعل',
+    items: [
+      { to: '/admin/messages', icon: Mail, label: 'الرسائل' },
+      { to: '/admin/users', icon: Users, label: 'المستخدمون' },
+    ],
+  },
+  {
+    label: 'النظام',
+    items: [
+      { to: '/admin/settings', icon: Settings, label: 'الإعدادات' },
+    ],
+  },
 ];
 
 export default function AdminLayout() {
@@ -67,23 +99,28 @@ export default function AdminLayout() {
 
         {/* Nav Links */}
         <nav className="flex-1 py-4 overflow-y-auto">
-          {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              onClick={() => setSidebarOpen(false)}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-5 py-3 mx-2 rounded-xl mb-1 transition-all text-sm font-medium
-                ${isActive
-                  ? 'bg-[#d4af37] text-[#1e3a5f]'
-                  : 'text-white/75 hover:bg-white/10 hover:text-white'
-                }`
-              }
-            >
-              <Icon size={18} />
-              <span>{label}</span>
-              <ChevronRight size={14} className="mr-auto opacity-50" />
-            </NavLink>
+          {NAV_GROUPS.map(group => (
+            <div key={group.label} className="mb-2">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-wider px-5 mb-1">{group.label}</p>
+              {group.items.map(({ to, icon: Icon, label }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  onClick={() => setSidebarOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-5 py-2.5 mx-2 rounded-xl mb-0.5 transition-all text-sm font-medium
+                    ${isActive
+                      ? 'bg-[#d4af37] text-[#1e3a5f]'
+                      : 'text-white/75 hover:bg-white/10 hover:text-white'
+                    }`
+                  }
+                >
+                  <Icon size={16} />
+                  <span>{label}</span>
+                  <ChevronRight size={12} className="mr-auto opacity-50" />
+                </NavLink>
+              ))}
+            </div>
           ))}
         </nav>
 

@@ -4,11 +4,10 @@
  * Overview page showing summary statistics and recent activity.
  *
  * Data source: dashboardService (localStorage)
- * TODO: Replace dashboardService.getStats() with: GET /api/dashboard/stats
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, Users, CheckCircle, Activity, ArrowLeft } from 'lucide-react';
+import { FileText, Users, CheckCircle, Activity, ArrowLeft, Globe, Briefcase, UserCheck, Image, Star, Mail } from 'lucide-react';
 import { dashboardService } from '../../services/adminService';
 
 // ── Stat Card ────────────────────────────────────────────────────
@@ -42,11 +41,21 @@ function ActivityBadge({ type }) {
   );
 }
 
+const QUICK_LINKS = [
+  { to: '/admin/site-settings', icon: Globe, label: 'إعدادات الموقع', desc: 'الاسم، الشعار، التواصل' },
+  { to: '/admin/articles', icon: FileText, label: 'المقالات', desc: 'إضافة وتعديل المقالات' },
+  { to: '/admin/services', icon: Briefcase, label: 'الخدمات', desc: 'إدارة الخدمات القانونية' },
+  { to: '/admin/team', icon: UserCheck, label: 'الفريق', desc: 'أعضاء الفريق' },
+  { to: '/admin/gallery', icon: Image, label: 'المعرض', desc: 'صور وملفات الموقع' },
+  { to: '/admin/testimonials', icon: Star, label: 'التقييمات', desc: 'شهادات العملاء' },
+  { to: '/admin/messages', icon: Mail, label: 'الرسائل', desc: 'رسائل التواصل' },
+  { to: '/admin/users', icon: Users, label: 'المستخدمون', desc: 'إدارة المستخدمين' },
+];
+
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    // TODO: Replace with: const stats = await fetch('/api/dashboard/stats').then(r => r.json());
     setStats(dashboardService.getStats());
   }, []);
 
@@ -63,7 +72,7 @@ export default function AdminDashboardPage() {
       {/* Page Title */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">لوحة التحكم</h1>
-        <p className="text-gray-500 text-sm mt-1">مرحباً بك، إليك ملخص حالة الموقع</p>
+        <p className="text-gray-500 text-sm mt-1">مرحباً بك — يمكنك تعديل كل محتوى الموقع من هنا</p>
       </div>
 
       {/* Stats Grid */}
@@ -76,72 +85,64 @@ export default function AdminDashboardPage() {
           color="bg-[#1e3a5f]"
         />
         <StatCard
-          icon={CheckCircle}
-          label="مقالات منشورة"
-          value={stats.publishedArticles}
-          color="bg-green-500"
+          icon={Briefcase}
+          label="الخدمات"
+          value={stats.totalServices}
+          color="bg-indigo-500"
         />
         <StatCard
-          icon={Users}
-          label="إجمالي المستخدمين"
-          value={stats.totalUsers}
-          sub={`${stats.activeUsers} نشط`}
+          icon={UserCheck}
+          label="أعضاء الفريق"
+          value={stats.totalTeam}
           color="bg-[#d4af37]"
         />
         <StatCard
-          icon={Activity}
-          label="مستخدمون نشطون"
-          value={stats.activeUsers}
-          color="bg-indigo-500"
+          icon={Mail}
+          label="الرسائل المستلمة"
+          value={stats.totalMessages}
+          color="bg-green-500"
         />
       </div>
 
-      {/* Quick Actions + Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Quick Actions */}
-        <div className="bg-white rounded-2xl shadow-sm p-5">
-          <h2 className="font-bold text-gray-700 mb-4 text-base">إجراءات سريعة</h2>
-          <div className="space-y-3">
+      {/* Quick Actions */}
+      <div className="bg-white rounded-2xl shadow-sm p-5">
+        <h2 className="font-bold text-gray-700 mb-4 text-base">الوصول السريع — إدارة المحتوى</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {QUICK_LINKS.map(({ to, icon: Icon, label, desc }) => (
             <Link
-              to="/admin/articles"
-              className="flex items-center justify-between p-3 bg-[#1e3a5f]/5 hover:bg-[#1e3a5f]/10 rounded-xl transition group"
+              key={to}
+              to={to}
+              className="flex items-center gap-3 p-3 bg-[#1e3a5f]/5 hover:bg-[#1e3a5f]/10 rounded-xl transition group"
             >
-              <div className="flex items-center gap-3">
-                <FileText size={18} className="text-[#1e3a5f]" />
-                <span className="text-sm font-medium text-gray-700">إدارة المقالات</span>
+              <div className="w-9 h-9 rounded-lg bg-[#1e3a5f]/10 flex items-center justify-center text-[#1e3a5f] shrink-0 group-hover:bg-[#1e3a5f] group-hover:text-white transition">
+                <Icon size={17} />
               </div>
-              <ArrowLeft size={16} className="text-gray-400 group-hover:text-[#1e3a5f] transition" />
-            </Link>
-            <Link
-              to="/admin/users"
-              className="flex items-center justify-between p-3 bg-[#1e3a5f]/5 hover:bg-[#1e3a5f]/10 rounded-xl transition group"
-            >
-              <div className="flex items-center gap-3">
-                <Users size={18} className="text-[#1e3a5f]" />
-                <span className="text-sm font-medium text-gray-700">إدارة المستخدمين</span>
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-gray-700 truncate">{label}</p>
+                <p className="text-xs text-gray-400 truncate">{desc}</p>
               </div>
-              <ArrowLeft size={16} className="text-gray-400 group-hover:text-[#1e3a5f] transition" />
+              <ArrowLeft size={14} className="text-gray-300 group-hover:text-[#1e3a5f] transition mr-auto shrink-0" />
             </Link>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Recent Activity */}
-        <div className="bg-white rounded-2xl shadow-sm p-5">
-          <h2 className="font-bold text-gray-700 mb-4 text-base">النشاط الأخير</h2>
-          {stats.recentActivity.length === 0 ? (
-            <p className="text-gray-400 text-sm text-center py-6">لا يوجد نشاط بعد</p>
-          ) : (
-            <ul className="space-y-3">
-              {stats.recentActivity.map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-gray-600">
-                  <ActivityBadge type={item.type} />
-                  <span className="flex-1 truncate">{item.label}</span>
-                  <span className="text-xs text-gray-400 shrink-0">{item.date}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      {/* Recent Activity */}
+      <div className="bg-white rounded-2xl shadow-sm p-5">
+        <h2 className="font-bold text-gray-700 mb-4 text-base">النشاط الأخير</h2>
+        {stats.recentActivity.length === 0 ? (
+          <p className="text-gray-400 text-sm text-center py-6">لا يوجد نشاط بعد</p>
+        ) : (
+          <ul className="space-y-3">
+            {stats.recentActivity.map((item, i) => (
+              <li key={i} className="flex items-center gap-3 text-sm text-gray-600">
+                <ActivityBadge type={item.type} />
+                <span className="flex-1 truncate">{item.label}</span>
+                <span className="text-xs text-gray-400 shrink-0">{item.date}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

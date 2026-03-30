@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Phone, MessageCircle, MapPin, Clock, Send, CheckCircle } from 'lucide-react'
+import { useCMS } from '../../context/CMSContext'
 import './Contact.css'
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const { siteSettings } = useCMS()
 
   const validate = () => {
     const errs = {}
@@ -52,7 +54,8 @@ const Contact = () => {
       `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `تاريخ الإرسال: ${new Date().toLocaleDateString('ar-EG')} — ${new Date().toLocaleTimeString('ar-EG')}`
     )
-    window.open(`mailto:mohamedsamy992019@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_self')
+    const email = siteSettings?.email || 'mohamedsamy992019@gmail.com'
+    window.open(`mailto:${email}?subject=${emailSubject}&body=${emailBody}`, '_self')
 
     setSubmitted(true)
     setTimeout(() => {
@@ -66,11 +69,16 @@ const Contact = () => {
     if (errors[field]) setErrors({ ...errors, [field]: undefined })
   }
 
+  const whatsappNumber = siteSettings?.whatsapp || '971506207021'
+  const phone = siteSettings?.phone || '+971 54 452 5880'
+  const address = siteSettings?.address || 'أبوظبي — الإمارات'
+  const workingHours = siteSettings?.workingHours || 'السبت — الخميس: 9:00 — 17:00'
+
   const contactCards = [
-    { icon: Phone, label: 'الهاتف', value: '+971 54 452 5880', href: 'tel:+971544525880', color: 'bg-blue-500' },
-    { icon: MessageCircle, label: 'واتساب', value: '+971 50 620 7021', href: 'https://wa.me/971506207021', color: 'bg-green-500' },
-    { icon: MapPin, label: 'المقر الرئيسي', value: 'أبوظبي — الإمارات', href: null, color: 'bg-red-500' },
-    { icon: Clock, label: 'ساعات العمل', value: 'السبت — الخميس: 9:00 — 17:00', href: null, color: 'bg-green-600' },
+    { icon: Phone, label: 'الهاتف', value: phone, href: `tel:${phone.replace(/\s/g, '')}`, color: 'bg-blue-500' },
+    { icon: MessageCircle, label: 'واتساب', value: `+${whatsappNumber}`, href: `https://wa.me/${whatsappNumber}`, color: 'bg-green-500' },
+    { icon: MapPin, label: 'المقر الرئيسي', value: address, href: null, color: 'bg-red-500' },
+    { icon: Clock, label: 'ساعات العمل', value: workingHours, href: null, color: 'bg-green-600' },
   ]
 
   return (
