@@ -3,13 +3,13 @@
  * --------------------------
  * CRUD for client testimonials / reviews.
  */
-import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, Save, X, Star } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Plus, Pencil, Trash2, Save, X, Star, Upload } from 'lucide-react';
 import { cmsTestimonialsService } from '../../services/adminService';
 import Toast from '../../components/admin/Toast';
 import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
-const EMPTY = { name: '', position: '', text: '', rating: 5, date: new Date().toISOString().split('T')[0] };
+const EMPTY = { name: '', company: '', position: '', text: '', rating: 5, date: new Date().toISOString().split('T')[0], image: null };
 
 function StarRating({ value, onChange }) {
   return (
@@ -26,10 +26,20 @@ function StarRating({ value, onChange }) {
 
 function TestimonialForm({ initial, onSave, onCancel }) {
   const [form, setForm] = useState(initial || EMPTY);
+  const imgRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleImg = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setForm(prev => ({ ...prev, image: ev.target.result }));
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = (e) => {
@@ -40,26 +50,52 @@ function TestimonialForm({ initial, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} className="bg-[#1e3a5f]/5 rounded-2xl p-5 space-y-4 border border-[#1e3a5f]/10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="label">اسم العميل *</label>
-          <input name="name" value={form.name} onChange={handleChange} className="input" required />
+      <div className="flex gap-4 items-start">
+        {/* Client Image */}
+        <div className="shrink-0">
+          {form.image ? (
+            <div className="relative w-20 h-20">
+              <img src={form.image} alt="" className="w-20 h-20 object-cover rounded-full border-2 border-[#d4af37]" />
+              <button type="button" onClick={() => setForm(p => ({ ...p, image: null }))}
+                className="absolute -top-2 -left-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center">
+                <X size={12} />
+              </button>
+            </div>
+          ) : (
+            <button type="button" onClick={() => imgRef.current?.click()}
+              className="w-20 h-20 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 text-xs gap-1 hover:border-[#1e3a5f]/50 transition">
+              <Upload size={18} />
+              <span>صورة</span>
+            </button>
+          )}
+          <input ref={imgRef} type="file" accept="image/*" className="hidden" onChange={handleImg} />
         </div>
-        <div>
-          <label className="label">المنصب / الوظيفة</label>
-          <input name="position" value={form.position} onChange={handleChange} className="input" />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="label">نص التقييم *</label>
-          <textarea name="text" value={form.text} onChange={handleChange} className="input resize-none" rows={3} required />
-        </div>
-        <div>
-          <label className="label">التقييم</label>
-          <StarRating value={form.rating} onChange={v => setForm(p => ({ ...p, rating: v }))} />
-        </div>
-        <div>
-          <label className="label">التاريخ</label>
-          <input type="date" name="date" value={form.date} onChange={handleChange} className="input" />
+
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="label">اسم العميل *</label>
+            <input name="name" value={form.name} onChange={handleChange} className="input" required />
+          </div>
+          <div>
+            <label className="label">الشركة / المنظمة</label>
+            <input name="company" value={form.company} onChange={handleChange} className="input" placeholder="اسم الشركة أو المنظمة" />
+          </div>
+          <div>
+            <label className="label">المنصب / الوظيفة</label>
+            <input name="position" value={form.position} onChange={handleChange} className="input" />
+          </div>
+          <div>
+            <label className="label">التاريخ</label>
+            <input type="date" name="date" value={form.date} onChange={handleChange} className="input" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="label">نص التقييم *</label>
+            <textarea name="text" value={form.text} onChange={handleChange} className="input resize-none" rows={3} required />
+          </div>
+          <div>
+            <label className="label">التقييم</label>
+            <StarRating value={form.rating} onChange={v => setForm(p => ({ ...p, rating: v }))} />
+          </div>
         </div>
       </div>
       <div className="flex gap-3">
@@ -138,11 +174,16 @@ export default function AdminTestimonialsPage() {
               <div className="bg-white rounded-2xl shadow-sm p-5 space-y-3">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#1e3a5f]/10 flex items-center justify-center text-[#1e3a5f] font-bold">
-                      {item.name?.[0] || '?'}
-                    </div>
+                    {item.image ? (
+                      <img src={item.image} alt={item.name} className="w-12 h-12 rounded-full object-cover border-2 border-[#d4af37]" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-[#1e3a5f]/10 flex items-center justify-center text-[#1e3a5f] font-bold text-lg">
+                        {item.name?.[0] || '?'}
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold text-gray-800">{item.name}</p>
+                      {item.company && <p className="text-xs text-[#1e3a5f] font-medium">{item.company}</p>}
                       {item.position && <p className="text-xs text-gray-500">{item.position}</p>}
                     </div>
                   </div>
