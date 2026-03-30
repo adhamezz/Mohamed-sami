@@ -8,6 +8,16 @@ import ScrollToTopButton from './components/ScrollToTop/ScrollToTopButton'
 import FloatingChatButton from './components/FloatingChat/FloatingChatButton'
 import './App.css'
 
+// Admin Dashboard
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/admin/ProtectedRoute'
+import AdminLayout from './components/admin/AdminLayout'
+import AdminLoginPage from './pages/admin/AdminLoginPage'
+import AdminDashboardPage from './pages/admin/AdminDashboardPage'
+import AdminArticlesPage from './pages/admin/AdminArticlesPage'
+import AdminUsersPage from './pages/admin/AdminUsersPage'
+import AdminSettingsPage from './pages/admin/AdminSettingsPage'
+
 // Page Components
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
@@ -70,60 +80,86 @@ function App() {
   }, [])
 
   return (
-    <Router>
-      <ScrollToTopOnNav />
-      <div className="bg-white" dir="rtl" lang="ar">
-        <Navbar />
+    <AuthProvider>
+      <Router>
+        <ScrollToTopOnNav />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/news" element={<NewsPage />} />
-          <Route path="/articles" element={<ArticlesPage />} />
-          <Route path="/library" element={<LibraryPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/search" element={<SearchResultsPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/article" element={<ArticleDetailPage />} />
-          <Route path="/services/legal-memos" element={<LegalMemosPage />} />
-          <Route path="/services/case-management" element={<CaseManagementPage />} />
-          <Route path="/services/consultation" element={<LegalConsultPage />} />
-          <Route path="/services/contracts" element={<ContractDraftingPage />} />
-          <Route path="/services/contracts-english" element={<EnglishContractsPage />} />
-          <Route path="/services/family-law" element={<FamilyLawPage />} />
-          <Route path="/services/criminal-law" element={<CriminalLawPage />} />
-          <Route path="/services/civil-commercial" element={<CivilCommercialPage />} />
-          <Route path="/services/company-formation" element={<CompanyFormationPage />} />
-          <Route path="/services/admin-labor" element={<AdminLaborPage />} />
-          <Route path="/legal-news" element={<LegalNewsPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/library/legal-books" element={<LegalBooksPage />} />
-          <Route path="/library/legal-books/:id" element={<BookDetailPage />} />
-          <Route path="/library/egyptian-laws" element={<EgyptianLawsPage />} />
-          <Route path="/library/uae-laws" element={<UAELawsPage />} />
-          <Route path="/library/kuwaiti-laws" element={<KuwaitiLawsPage />} />
-          <Route path="/library/cassation-rulings" element={<CassationRulingsPage />} />
-          <Route path="/library/admin-court" element={<AdminCourtPage />} />
-          <Route path="/library/constitutional-court" element={<ConstitutionalCourtPage />} />
-          <Route path="/library/lawsuit-forms" element={<LawsuitFormsPage />} />
-          <Route path="/library/contract-forms" element={<ContractFormsPage />} />
-          <Route path="/library/notices-forms" element={<NoticesFormsPage />} />
-          <Route path="/library/legal-topics" element={<LegalTopicsPage />} />
-          <Route path="/library/defense-memos" element={<DefenseMemosPage />} />
-          {/* Guide pages */}
-          <Route path="/guide/egyptian-law-codes" element={<EgyptianLawCodesPage />} />
-          <Route path="/guide/case-inquiry" element={<CaseInquiryPage />} />
-          <Route path="/guide/insurance-inquiry" element={<InsuranceInquiryPage />} />
-          <Route path="/guide/egyptian-courts" element={<EgyptianCourtsPage />} />
-          <Route path="/guide/uae-courts" element={<UAECourtsPage />} />
+          {/* ── Admin Routes (separate layout, no public Navbar/Footer) ── */}
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="dashboard" element={<AdminDashboardPage />} />
+            <Route path="articles" element={<AdminArticlesPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
+          </Route>
+
+          {/* ── Public Routes ── */}
+          <Route
+            path="/*"
+            element={
+              <div className="bg-white" dir="rtl" lang="ar">
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/services" element={<ServicesPage />} />
+                  <Route path="/news" element={<NewsPage />} />
+                  <Route path="/articles" element={<ArticlesPage />} />
+                  <Route path="/library" element={<LibraryPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/search" element={<SearchResultsPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/blog/article" element={<ArticleDetailPage />} />
+                  <Route path="/services/legal-memos" element={<LegalMemosPage />} />
+                  <Route path="/services/case-management" element={<CaseManagementPage />} />
+                  <Route path="/services/consultation" element={<LegalConsultPage />} />
+                  <Route path="/services/contracts" element={<ContractDraftingPage />} />
+                  <Route path="/services/contracts-english" element={<EnglishContractsPage />} />
+                  <Route path="/services/family-law" element={<FamilyLawPage />} />
+                  <Route path="/services/criminal-law" element={<CriminalLawPage />} />
+                  <Route path="/services/civil-commercial" element={<CivilCommercialPage />} />
+                  <Route path="/services/company-formation" element={<CompanyFormationPage />} />
+                  <Route path="/services/admin-labor" element={<AdminLaborPage />} />
+                  <Route path="/legal-news" element={<LegalNewsPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/library/legal-books" element={<LegalBooksPage />} />
+                  <Route path="/library/legal-books/:id" element={<BookDetailPage />} />
+                  <Route path="/library/egyptian-laws" element={<EgyptianLawsPage />} />
+                  <Route path="/library/uae-laws" element={<UAELawsPage />} />
+                  <Route path="/library/kuwaiti-laws" element={<KuwaitiLawsPage />} />
+                  <Route path="/library/cassation-rulings" element={<CassationRulingsPage />} />
+                  <Route path="/library/admin-court" element={<AdminCourtPage />} />
+                  <Route path="/library/constitutional-court" element={<ConstitutionalCourtPage />} />
+                  <Route path="/library/lawsuit-forms" element={<LawsuitFormsPage />} />
+                  <Route path="/library/contract-forms" element={<ContractFormsPage />} />
+                  <Route path="/library/notices-forms" element={<NoticesFormsPage />} />
+                  <Route path="/library/legal-topics" element={<LegalTopicsPage />} />
+                  <Route path="/library/defense-memos" element={<DefenseMemosPage />} />
+                  {/* Guide pages */}
+                  <Route path="/guide/egyptian-law-codes" element={<EgyptianLawCodesPage />} />
+                  <Route path="/guide/case-inquiry" element={<CaseInquiryPage />} />
+                  <Route path="/guide/insurance-inquiry" element={<InsuranceInquiryPage />} />
+                  <Route path="/guide/egyptian-courts" element={<EgyptianCourtsPage />} />
+                  <Route path="/guide/uae-courts" element={<UAECourtsPage />} />
+                </Routes>
+                <WhatsAppButton />
+                <FloatingSubscribeButton />
+                <FloatingChatButton />
+                <ScrollToTopButton />
+                <Footer />
+              </div>
+            }
+          />
         </Routes>
-        <WhatsAppButton />
-        <FloatingSubscribeButton />
-        <FloatingChatButton />
-        <ScrollToTopButton />
-        <Footer />
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   )
 }
 
