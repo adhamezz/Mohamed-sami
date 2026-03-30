@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useCMS } from '../../context/CMSContext';
 import {
   LayoutDashboard,
   FileText,
@@ -59,8 +60,10 @@ const NAV_GROUPS = [
 
 export default function AdminLayout() {
   const { admin, logout } = useAuth();
+  const { siteSettings } = useCMS();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const siteName = siteSettings?.siteName || 'محمد سامي';
 
   const handleLogout = () => {
     logout();
@@ -87,7 +90,7 @@ export default function AdminLayout() {
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
           <Link to="/admin/dashboard" className="flex items-center gap-2">
             <span className="text-[#d4af37] font-bold text-lg leading-tight">
-              محمد سامي
+              {siteName}
               <br />
               <span className="text-xs text-white/70 font-normal">لوحة الإدارة</span>
             </span>

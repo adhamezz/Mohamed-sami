@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X, Phone, ChevronDown } from 'lucide-react'
 import logoImg from '../../images/logo.jpg'
+import { useCMS } from '../../context/CMSContext'
 import './Navbar.css'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
+  const { siteSettings } = useCMS()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -64,6 +66,17 @@ const Navbar = () => {
     { label: 'دليل المستشار', path: '/guide/egyptian-law-codes', submenu: guideSubmenu },
   ]
 
+  const logoSrc = siteSettings?.logo || logoImg
+  const siteName = siteSettings?.siteName || 'محمد سامي'
+  const siteDescription = siteSettings?.siteDescription || 'مستشار قانوني'
+  const phone = siteSettings?.phone || '+971544525880'
+  const whatsappNumber = siteSettings?.whatsapp || '971506207021'
+  const whatsappDisplay = whatsappNumber.startsWith('+') ? whatsappNumber : `+${whatsappNumber}`
+  const whatsappHref = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}`
+  const phoneHref = `tel:${phone.replace(/\s/g, '')}`
+  const facebookLink = siteSettings?.facebook || 'https://www.facebook.com/mohamd.samy.9'
+  const linkedinLink = siteSettings?.linkedin || 'https://www.linkedin.com/in/mohamed-samy-810aa3256/'
+
   return (
     <>
       {/* Top Bar */}
@@ -74,13 +87,13 @@ const Navbar = () => {
               <span className="text-gold-400 font-bold">للاستشارات القانونية</span>
             </div>
             <div className="flex items-center gap-6 text-sm">
-              <a href="tel:+971544525880" className="flex items-center gap-2 hover:text-gold-400 transition-colors">
+              <a href={phoneHref} className="flex items-center gap-2 hover:text-gold-400 transition-colors">
                 <Phone size={13} />
-                <span dir="ltr">+971544525880</span>
+                <span dir="ltr">{phone}</span>
               </a>
-              <a href="https://wa.me/971506207021" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-gold-400 transition-colors">
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-gold-400 transition-colors">
                 <Phone size={13} />
-                <span dir="ltr">+971506207021</span>
+                <span dir="ltr">{whatsappDisplay}</span>
               </a>
             </div>
           </div>
@@ -98,10 +111,10 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex-shrink-0 flex items-center gap-3">
-              <img src={logoImg} alt="محمد سامي" className="w-10 h-10 rounded-full object-cover border border-gold-200 shadow-sm" />
+              <img src={logoSrc} alt={siteName} className="w-10 h-10 rounded-full object-cover border border-gold-200 shadow-sm" />
               <div>
-                <div className="text-lg font-tajawal font-bold text-navy-900 leading-tight">محمد سامي</div>
-                <div className="text-[11px] text-gold-500 font-cairo -mt-0.5">مستشار قانوني</div>
+                <div className="text-lg font-tajawal font-bold text-navy-900 leading-tight">{siteName}</div>
+                <div className="text-[11px] text-gold-500 font-cairo -mt-0.5">{siteDescription}</div>
               </div>
             </Link>
 
@@ -141,13 +154,13 @@ const Navbar = () => {
 
               {/* Social Media Icons */}
               <div className="flex items-center gap-2 px-3 border-r border-gray-200 mr-1">
-                <a href="https://www.facebook.com/mohamd.samy.9" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-50 flex items-center justify-center text-navy-700 hover:bg-[#1877F2] hover:text-white transition-all duration-200" aria-label="Facebook">
+                <a href={facebookLink} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-50 flex items-center justify-center text-navy-700 hover:bg-[#1877F2] hover:text-white transition-all duration-200" aria-label="Facebook">
                   <i className="fab fa-facebook-f text-sm" />
                 </a>
-                <a href="https://wa.me/971506207021" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-50 flex items-center justify-center text-navy-700 hover:bg-[#25D366] hover:text-white transition-all duration-200" aria-label="WhatsApp">
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-50 flex items-center justify-center text-navy-700 hover:bg-[#25D366] hover:text-white transition-all duration-200" aria-label="WhatsApp">
                   <i className="fab fa-whatsapp text-sm" />
                 </a>
-                <a href="https://www.linkedin.com/in/mohamed-samy-810aa3256/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-50 flex items-center justify-center text-navy-700 hover:bg-[#0A66C2] hover:text-white transition-all duration-200" aria-label="LinkedIn">
+                <a href={linkedinLink} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-50 flex items-center justify-center text-navy-700 hover:bg-[#0A66C2] hover:text-white transition-all duration-200" aria-label="LinkedIn">
                   <i className="fab fa-linkedin-in text-sm" />
                 </a>
               </div>

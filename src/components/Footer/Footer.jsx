@@ -27,6 +27,9 @@ const Footer = () => {
 
   const whatsappNumber = siteSettings?.whatsapp || '971506207021'
   const adminEmail = siteSettings?.email || 'mohamedsamy992019@gmail.com'
+  const logoSrc = siteSettings?.logo || logoImg
+  const siteName = siteSettings?.siteName || 'محمد سامي'
+  const footerAbout = siteSettings?.aboutText || siteSettings?.siteDescription || 'مستشار قانوني متخصص يقدم حلولاً قانونية للأفراد والشركات مع تركيز على الدقة والسرعة وحماية مصالح العملاء.'
 
   const socialLinks = [
     siteSettings?.facebook && { icon: Facebook, label: 'Facebook', href: siteSettings.facebook },
@@ -210,17 +213,17 @@ const Footer = () => {
             <div className="flex items-center gap-3 mb-4">
               <motion.img
                 whileHover={{ scale: 1.1, rotate: 5 }}
-                src={logoImg}
-                alt="محمد سامي"
+                src={logoSrc}
+                alt={siteName}
                 className="w-14 h-14 rounded-full object-cover border-2 border-gold-400 shadow-lg shadow-gold-500/20"
               />
               <div>
-                <h3 className="text-2xl font-tajawal font-bold text-gold-400">محمد سامي</h3>
-                <p className="text-xs font-cairo text-gray-400">مستشار قانوني</p>
+                <h3 className="text-2xl font-tajawal font-bold text-gold-400">{siteName}</h3>
+                <p className="text-xs font-cairo text-gray-400">{siteSettings?.siteDescription || 'مستشار قانوني'}</p>
               </div>
             </div>
             <p className="text-gray-300 font-cairo leading-relaxed text-sm">
-              محمد سامي مستشار قانوني متخصص يقدم حلولاً قانونية للأفراد والشركات مع تركيز على الدقة والسرعة وحماية مصالح العملاء.
+              {footerAbout}
             </p>
             <div className="flex gap-3 pt-4">
               {socialLinks.map((social, index) => {
@@ -347,7 +350,7 @@ const Footer = () => {
           className="flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-gray-400 font-cairo text-sm text-center md:text-right">
-            © {new Date().getFullYear()} محمد سامي — مستشار قانوني. جميع الحقوق محفوظة.
+            © {new Date().getFullYear()} {siteName}. جميع الحقوق محفوظة.
           </p>
           <div className="flex items-center gap-6">
             <Link
